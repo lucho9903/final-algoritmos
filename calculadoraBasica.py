@@ -36,6 +36,10 @@ def resultado_basica():
 def guardar_historial(expresion, resultado):
     with open("historial_calculadora.txt", "a") as archivo:
         archivo.write(f"{expresion} = {resultado}\n")
+        os.chdir(r"C:\Users\Lucho\final-algoritmos")  # Cambia al directorio del repositorio
+        os.system("git add .")
+        os.system("git commit -m 'se actualiza el historial'")
+        os.system("git push")
 
     
 Boton7 = Button(ventana,text="7",bg=color_boton,width=ancho_boton,height=alto_boton,fg="white", command=lambda:click_basica(7)).grid(row=1,column=0,pady=10)
