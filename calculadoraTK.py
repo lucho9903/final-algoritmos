@@ -1,6 +1,7 @@
 from tkinter import *
 from math import *
-import os
+from git import Repo
+
 ventana = Tk()
 ventana.title("Calculadora UCO")
 ventana.geometry("480x580")
@@ -36,11 +37,16 @@ def resultado_cientifica():
 def guardar_historial(expresion, resultado):
     with open("historial_cientifica.txt", "a") as archivo:
         archivo.write(f"{expresion} = {resultado}\n")
-        os.chdir(r"C:\Users\Lucho\final-algoritmos")  # Cambia al directorio del repositorio
-        os.system("git add .")
-        os.system("git commit -m 'se actualiza el historial'")
-        os.system("git push")
+    try:
+        repo = Repo(r"C:\Users\Lucho\final-algoritmos")
+        repo.git.add("historial_cientifica.txt")
+        repo.git.commit("-m", "se actualizo el historial de la calculadora cientifica")
+        repo.git.push("origin")
+        print("Historial actualizado y enviado a Git.")
+    except Exception as e:
+        print(f"Error al enviar a Git: {e}")     
 
+  
 Boton7 = Button(ventana,text="7",bg=color_boton,width=ancho_boton,height=alto_boton,fg="white", command=lambda:click_cientifica(7)).grid(row=1,column=0,pady=10)
 Boton8 = Button(ventana,text="8",bg=color_boton,width=ancho_boton,height=alto_boton, fg="white",command=lambda:click_cientifica(8)).grid(row=1,column=1,pady=10)
 Boton9 = Button(ventana,text="9",bg=color_boton,width=ancho_boton,height=alto_boton,fg="white", command=lambda:click_cientifica(9)).grid(row=1,column=2,pady=10)

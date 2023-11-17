@@ -1,3 +1,5 @@
+
+from git import Repo
 import tkinter as tk
 from tkinter import messagebox
 
@@ -85,10 +87,7 @@ def producto_matrices(matriz1, matriz2):
             fila_resultado.append(producto)
         resultado.append(fila_resultado)
     return resultado
-
-def guardar_historial(expresion, matriz1, matriz2, resultado):
-    with open("historial_matriz.txt", "a") as archivo:
-        archivo.write(f"Resultado: {resultado}\n\n")
+        
 ventana = tk.Tk()
 ventana.title("Operaciones de Matrices MAX 5X5")
 
@@ -159,7 +158,15 @@ def seleccionar_operacion(event):
 
 def guardar_historial(expresion, resultado):
     with open("historial_matriz.txt", "a") as archivo:
-        archivo.write(f"{expresion} = {resultado}\n")      
+        archivo.write(f"{expresion} = {resultado}\n")
+    try:
+        repo = Repo(r"C:\Users\Lucho\final-algoritmos")
+        repo.git.add("historial_matriz.txt")
+        repo.git.commit("-m", "se actualizo historial de la calculadora de matriz")
+        repo.git.push("origin")
+        print("Historial actualizado y enviado a Git.")
+    except Exception as e:
+        print(f"Error al enviar a Git: {e}")        
 
 menu_operacion = tk.OptionMenu(frame_operacion, operacion, "Suma", "Resta", "Producto")
 menu_operacion.grid(row=0, column=1)
@@ -188,5 +195,6 @@ for i in range(5):
     resultado_label.append(fila_label)
 
 ventana.mainloop()
+
 
 
